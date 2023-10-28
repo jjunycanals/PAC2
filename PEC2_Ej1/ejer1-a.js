@@ -14,10 +14,12 @@ const findOne = (list, { key, value }, { onSuccess, onError }) => {
   }, 2000);
 };
 
+// Aqui s'imprimeix en consola el nom de l'usuari trobat, si la funció findOne() retorna un valor (cas d'èxit)
 const onSuccess = ({ name }) => console.log(`user: ${name}`);
+// Aqui s'imprimeix en consola l'error en cas que la funció findOne() retorna que no ha trobat el nom d'usuari a users[].
 const onError = ({ msg }) => console.log(msg);
 
-
+// Aquí es dona una const en format json amb les dades on hi ha la inofrmació. Simula la base de dades.
 const users = [
   {
     name: 'Carlos',
@@ -28,9 +30,11 @@ const users = [
     rol: 'Boss'
   }
 ];
-
+// Aquí s'imprmieix per consola les paraules 'findOne success'. Suposo que es fa perquè es visualitzi de forma clara a la consola que s'executa la línea abans el timeout no dona la resposta en el callback
 console.log('findOne success');
+// Aquí es crida la funció findOne() passant que busqui en la clau 'name' el valor 'carlos' i retoni exit o error segons pertoqui per les línies 18 i 20. En aquest cas retorna exit perquè l'usuari 'Carlos' existeix a const users.
 findOne(users, { key: 'name', value: 'Carlos' }, { onSuccess, onError });
-
+// Idem  de la fila 33.
 console.log('findOne error');
+// Aquí es crida la funció findOne() passant que busqui en la clau 'name' el valor 'Fermin' i retoni exit o error segons pertoqui per les línies 18 i 20. En aquest cas retorna error perquè l'usuari 'Fermin' NO existeix a const users.
 findOne(users, { key: 'name', value: 'Fermin' }, { onSuccess, onError });
