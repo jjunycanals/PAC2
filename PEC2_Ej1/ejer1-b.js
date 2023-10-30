@@ -32,9 +32,12 @@ const users = [
 
 // Es reformula la forma de cridar la funció findOne perquè tinguin un then i un catch.
 findOne(users, { key: 'name', value: 'Carlos' })
+// Quan aquesta funció s'executi hi ha dins una promesa que pot tardar en retornar un valor. Utlitzem THEN per dir que quan acabi executi el que necessitem que faci.
+// Mentre el programa va executant la resta de codi i va executant-ho de forma lineal.
   .then((data) => {
     console.log(`Resolución promesa, el usuario es: ${data['name']}`);
   })
+  // Utlitzem CATCH per el cas que no ens torni un resultat favorable la promesa.
   .catch((err) => {
     console.log(`Error encontrado: ${err['msg']}`);
   });
