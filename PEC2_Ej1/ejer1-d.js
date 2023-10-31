@@ -31,26 +31,19 @@ const users = [
 // findOne(users, { key: 'name', value: 'Carlos' }, { onSuccess, onError });
 // findOne(users, { key: 'name', value: 'Fermin' }, { onSuccess, onError });
 
+// Al cridar la funció findOne() farem us del Async/await
 // Creem una funció asincrona que crida la funció findOne() i farem us del Async/await
-async function llamadaFindOne () {
-  // Posem un try/catch per fer us dels èxits/errors, com fem 2 casos posaré dos try/catch. Un per cada promesa.
+async function llamadaFindOne (json, {key,value}) {
+  // Posem un try/catch per fer us dels èxits/errors
   try {  
     // Aquí cridem a la funció findOne() i posem un await davant ja que es una promesa que tardarà en retornar un resultat
-    const resultado = await findOne(users, { key: 'name', value: 'Carlos' });
-    // Quan la promesa retorna un resolve, l'imprimirem amb aquest console.log
-    console.log(`Resolución promesa, el usuario es: ${resultado['name']}`);
-  } catch (err) {
-    // Quan la promesa retorna un reject, imprimirem l'error trobat
-    console.log(`Error encontrado: ${err['msg']}`);
-  }
-
-  // Cridem per segona vegada findOne amb el cas Fermin. Això fa que la primera promesa condiciona la segona.
-  try {  
-    const resultado = await findOne(users, { key: 'name', value: 'Fermin' });
+    const resultado = await findOne(json, {key,value});
     console.log(`Resolución promesa, el usuario es: ${resultado['name']}`);
   } catch (err) {
     console.log(`Error encontrado: ${err['msg']}`);
   }
 };
-// Cridem la funció que té async/await perquè busqui els dos usuaris per veure si hi son amb els noms corresponents.
-llamadaFindOne();
+// Cridem la funció que té async/await perquè busqui els dos usuaris si hi son amb els noms corresponents.
+// Farem una crida per cada cas, així no hem d'esperar que el resultat de la primera promesa condicioni la segona i s'executi al mateix temps.
+llamadaFindOne(users, { key: 'name', value: 'Carlos' });
+llamadaFindOne(users, { key: 'name', value: 'Fermin' });
