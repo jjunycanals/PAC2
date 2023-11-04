@@ -33,15 +33,12 @@ class TodoView {
 
   createElement(tag, className) {
     const element = document.createElement(tag);
-
     if (className) element.classList.add(className);
-
     return element;
   }
 
   getElement(selector) {
     const element = document.querySelector(selector);
-
     return element;
   }
 
@@ -135,7 +132,6 @@ class TodoView {
     this.todoList.addEventListener("change", event => {
       if (event.target.type === "checkbox") {
         const id = event.target.parentElement.id;
-
         handler(id);
       }
     });

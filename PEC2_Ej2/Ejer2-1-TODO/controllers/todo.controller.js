@@ -33,6 +33,7 @@ class TodoController {
   }
 
   onTodoListChanged = todos => {
+    console.log(todos);
     this.view.displayTodos(todos);
   };
 
