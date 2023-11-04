@@ -109,10 +109,14 @@ class expenseView {
                 const li = this.createElement("li");
                 li.className = transactions.amount < 0 ? 'minus' : 'plus';
                 li.textContent = transactions.text;
+                li.contentEditable = true;
+                li.id = transactions.id;
 
                 const span = this.createElement("span");
                 const sign = transactions.amount < 0 ? '' : '+';
                 span.innerHTML = `${sign} ${transactions.amount}`;
+                span.contentEditable = true;
+                span.classList.add("editable");
 
                 const deleteButton = this.createElement("button", "delete-btn");
                 deleteButton.setAttribute("onclick", "removeTransaction("+transactions.id+")");
@@ -127,6 +131,15 @@ class expenseView {
         
         // Debugging
         console.log(transactions);
+    }
+
+    _initLocalListeners() {
+        this.expenseList.addEventListener("click", event => {
+            console.log(event.target);
+          if (event.target.contentEditable === 'true') {
+            this._temporaryTransactionsText = event.target.innerText;
+          }
+        });
     }
 
     bindAddTransaction(handler) {
@@ -149,10 +162,13 @@ class expenseView {
     }
     bindEditTransaction(handler) {
         this.expenseList.addEventListener("focusout", event => {
-          if (this._temporaryExpenseText) {
-            const id = event.target.parentElement.id;
-            handler(id, this._temporaryExpenseText);
-            this._temporaryExpenseText = "";
+          if (event.target.contentEditable === 'true') {
+            const id = event.target.id;
+            const newtext = document.getElementById(id).childNodes.item(0).nodeValue;
+            const newamount = document.getElementById(id).childNodes.item(1).innerText;
+
+            handler(id, newtext, newamount);
+            this._temporaryTransactionsText = "";
           }
         });
     }

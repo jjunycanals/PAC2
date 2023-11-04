@@ -40,12 +40,14 @@ class expenseService {
         // Get sign
         const sign = transaction.amount < 0 ? '-' : '+';
         const item = document.createElement('li');
+        item.contentEditable = true;
+        item.id = transaction.id;
 
         // Add class based on value
         item.classList.add(transaction.amount < 0 ? 'minus' : 'plus');
  
         item.innerHTML = `${transaction.text} 
-        <span>${sign}${Math.abs(transaction.amount)}</span> 
+        <span contentEditable = "true" class="editable">${sign}${Math.abs(transaction.amount)}</span> 
         <button class="delete-btn" 
         onclick="removeTransaction(${transaction.id})" 
         id="${transaction.id}">x</button>`;
@@ -70,20 +72,32 @@ class expenseService {
         money_minus.innerText = `$${transaction}`;
 
     }
-    
+    editTransaction(id, updatedText, upadtedAmount) {
+        var arr2 = JSON.parse(localStorage.getItem("transactions"));
+        for (var i =0; i< arr2.length; i++) {
+            var transaction = arr2[i];
+            if (this.transactions[i].id == id) {
+                var upadtedAmount2 = parseInt(upadtedAmount);
+                arr2[i].text = updatedText;
+                arr2[i].amount = upadtedAmount2;
+            }
+        };
+        this.transactions = arr2;
+
+        this._commit(this.transactions);
+        this.init();
+    }
     removeTransaction(id) {
         var arr = JSON.parse(localStorage.getItem("transactions"));
         for (var i =0; i< arr.length; i++) {
             var transaction = arr[i];
-            console.log(transaction);
             if (this.transactions[i].id == id) {
                 arr.splice(i, 1);
             }
         };
 
         this.transactions = arr;
-        //this.transactions = this.transactions.filter(transaction => transaction.id !== id);
-        console.log(this.transactions);
+
         this._commit(this.transactions);
         this.init();
     }

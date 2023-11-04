@@ -36,8 +36,8 @@ class expenseController {
         this.service.addTransaction(transactionsText);
     };
 
-    handleEditTransaction = (id, transactionsText) => {
-        this.service.editTransaction(id, transactionsText);
+    handleEditTransaction = (id, transactionsText, amount) => {
+        this.service.editTransaction(id, transactionsText, amount);
     };
 
     handleDeleteTransaction = id => {
